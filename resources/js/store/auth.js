@@ -1,12 +1,11 @@
-import Axios from "axios";
-import { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } from "constants";
-import { longStackSupport } from "q";
-
 const state = {
     user: null
 };
 
-const getters = {};
+const getters = {
+    check: state => !!state.user,
+    username: state => (state.user ? state.user.name : "")
+};
 
 const mutations = {
     setUser(state, user) {
@@ -21,11 +20,16 @@ const actions = {
     },
     async login(context, data) {
         const response = await axios.post("/api/login", data);
-        context.commit("setUser", response, data);
+        context.commit("setUser", response.data);
     },
     async logout(context, data) {
         const response = await axios.post("/api/logout");
         context.commit("setUser", null);
+    },
+    async currentUser(context, data) {
+        const response = await axios.get("/api/user");
+        const user = response.data || null;
+        context.commit("setUser", user);
     }
 };
 

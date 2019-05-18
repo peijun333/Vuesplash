@@ -12,6 +12,10 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+//ログインされていない場合はから文字を返す
+Route::get('/user', function() {
+    return Auth::user();
+})->name('user');
 
 Route::post('/register', 'Auth\RegisterController@register')->name('register');
 Route::post('/login', 'Auth\LoginController@login')->name('login');

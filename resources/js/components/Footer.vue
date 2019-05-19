@@ -5,11 +5,23 @@
   </footer>
 </template>
 <script>
+import { mapState, mapGetters } from "vuex";
 export default {
+  computed: {
+    // apiStatus() {
+    //   return this.$store.state.auth.apiStatus;
+    // },
+    // isLogin() {
+    //   return this.$store.getters["auth/check"];
+    // }
+    ...mapState({
+      apiStatus: state => state.auth.apiStatus
+    }),
+    ...mapGetters({
+      isLogin: "auth/check"
+    })
+  },
   methods: {
-    isLogin() {
-      return this.$store.getters["auth/check"];
-    },
     async logout() {
       await this.$store.dispatch("auth/logout");
 

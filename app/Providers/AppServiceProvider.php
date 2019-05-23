@@ -23,6 +23,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \URL::forceScheme('https');
+        \Illuminate\Pagination\AbstractPaginator::currentPathResolver(function () {
+            /** @var \Illuminate\Routing\UrlGenerator $url */
+           $url = app('url');
+           return $url->current();
+        });
     }
 }
